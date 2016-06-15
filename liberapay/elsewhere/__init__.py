@@ -11,6 +11,7 @@ def _import():  # flake8: noqa
     from .linuxfr import LinuxFr
     from .openstreetmap import OpenStreetMap
     from .twitter import Twitter
+    from .autour import Autour
     return list(locals().values())
 
 CLASSES = _import()

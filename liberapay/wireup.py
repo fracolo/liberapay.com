@@ -61,6 +61,9 @@ def db(env):
 class AppConf(object):
 
     fields = dict(
+        autour_callback                 = str,
+        autour_id                       = str,
+        autour_secret                   = str,
         bitbucket_callback              = str,
         bitbucket_id                    = str,
         bitbucket_secret                = str,
