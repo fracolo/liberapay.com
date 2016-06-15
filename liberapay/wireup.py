@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from collections import OrderedDict
 import json
+import logging
 import os
 import re
 import traceback
@@ -61,6 +62,7 @@ def db(env):
 class AppConf(object):
 
     fields = dict(
+<<<<<<< HEAD
         autour_callback                 = str,
         autour_id                       = str,
         autour_secret                   = str,
@@ -111,6 +113,54 @@ class AppConf(object):
         twitter_secret                  = str,
         update_global_stats_every       = int,
     )  # flake8: noqa
+=======
+        bitbucket_callback=str,
+        bitbucket_id=str,
+        bitbucket_secret=str,
+        bountysource_api_url=str,
+        bountysource_auth_url=str,
+        bountysource_callback=str,
+        bountysource_id=None.__class__,
+        bountysource_secret=str,
+        check_db_every=int,
+        compress_assets=bool,
+        dequeue_emails_every=int,
+        facebook_callback=str,
+        facebook_id=str,
+        facebook_secret=str,
+        github_callback=str,
+        github_id=str,
+        github_secret=str,
+        gitlab_callback=str,
+        gitlab_id=str,
+        gitlab_secret=str,
+        google_callback=str,
+        google_id=str,
+        google_secret=str,
+        linuxfr_callback=str,
+        linuxfr_id=str,
+        linuxfr_secret=str,
+        log_emails=bool,
+        mangopay_base_url=str,
+        mangopay_client_id=str,
+        mangopay_client_password=str,
+        openstreetmap_api_url=str,
+        openstreetmap_auth_url=str,
+        openstreetmap_callback=str,
+        openstreetmap_id=str,
+        openstreetmap_secret=str,
+        password_rounds=int,
+        smtp_host=str,
+        smtp_port=int,
+        smtp_username=str,
+        smtp_password=str,
+        smtp_use_tls=bool,
+        twitter_callback=str,
+        twitter_id=str,
+        twitter_secret=str,
+        update_global_stats_every=int,
+    )
+>>>>>>> 2093902db2cec849e39aca50070c5d85862667a6
 
     def __init__(self, d):
         d = d if isinstance(d, dict) else dict(d)
@@ -348,8 +398,8 @@ def load_i18n(canonical_host, canonical_scheme, project_root, tell_sentry):
     return {'docs': docs, 'lang_list': lang_list, 'locales': locales}
 
 
-def asset_url_generator(app_conf, asset_url, tell_sentry, www_root):
-    if app_conf.cache_static:
+def asset_url_generator(env, asset_url, tell_sentry, www_root):
+    if env.cache_static:
         def asset(path):
             fspath = www_root+'/assets/'+path
             etag = ''
@@ -365,15 +415,30 @@ def asset_url_generator(app_conf, asset_url, tell_sentry, www_root):
 
 def env():
     env = Environment(
-        ASPEN_PROJECT_ROOT              = str,
-        DATABASE_URL                    = str,
-        DATABASE_MAXCONN                = int,
-        CANONICAL_HOST                  = str,
-        CANONICAL_SCHEME                = str,
-        SENTRY_DSN                      = str,
-        SENTRY_RERAISE                  = is_yesish,
-        GUNICORN_OPTS                   = str,
-    )  # flake8: noqa
+        ASPEN_PROJECT_ROOT=str,
+        DATABASE_URL=str,
+        DATABASE_MAXCONN=int,
+        CANONICAL_HOST=str,
+        CANONICAL_SCHEME=str,
+        SENTRY_DSN=str,
+        SENTRY_RERAISE=is_yesish,
+        GUNICORN_OPTS=str,
+        LOG_DIR=str,
+        KEEP_PAYDAY_LOGS=is_yesish,
+        LOGGING_LEVEL=str,
+        CACHE_STATIC=is_yesish,
+        CLEAN_ASSETS=is_yesish,
+        RUN_CRON_JOBS=is_yesish,
+        OVERRIDE_PAYDAY_CHECKS=is_yesish,
+    )
+
+    logging.basicConfig(level=getattr(logging, env.logging_level.upper()))
+
+    if env.log_dir[:1] == '$':
+        var_name = env.log_dir[1:]
+        env.log_dir = os.environ.get(var_name)
+        if env.log_dir is None:
+            env.missing.append(var_name+' (referenced by LOG_DIR)')
 
     if env.malformed:
         plural = len(env.malformed) != 1 and 's' or ''
