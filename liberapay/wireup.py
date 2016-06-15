@@ -62,7 +62,6 @@ def db(env):
 class AppConf(object):
 
     fields = dict(
-<<<<<<< HEAD
         autour_callback                 = str,
         autour_id                       = str,
         autour_secret                   = str,
@@ -113,54 +112,7 @@ class AppConf(object):
         twitter_secret                  = str,
         update_global_stats_every       = int,
     )  # flake8: noqa
-=======
-        bitbucket_callback=str,
-        bitbucket_id=str,
-        bitbucket_secret=str,
-        bountysource_api_url=str,
-        bountysource_auth_url=str,
-        bountysource_callback=str,
-        bountysource_id=None.__class__,
-        bountysource_secret=str,
-        check_db_every=int,
-        compress_assets=bool,
-        dequeue_emails_every=int,
-        facebook_callback=str,
-        facebook_id=str,
-        facebook_secret=str,
-        github_callback=str,
-        github_id=str,
-        github_secret=str,
-        gitlab_callback=str,
-        gitlab_id=str,
-        gitlab_secret=str,
-        google_callback=str,
-        google_id=str,
-        google_secret=str,
-        linuxfr_callback=str,
-        linuxfr_id=str,
-        linuxfr_secret=str,
-        log_emails=bool,
-        mangopay_base_url=str,
-        mangopay_client_id=str,
-        mangopay_client_password=str,
-        openstreetmap_api_url=str,
-        openstreetmap_auth_url=str,
-        openstreetmap_callback=str,
-        openstreetmap_id=str,
-        openstreetmap_secret=str,
-        password_rounds=int,
-        smtp_host=str,
-        smtp_port=int,
-        smtp_username=str,
-        smtp_password=str,
-        smtp_use_tls=bool,
-        twitter_callback=str,
-        twitter_id=str,
-        twitter_secret=str,
-        update_global_stats_every=int,
-    )
->>>>>>> 2093902db2cec849e39aca50070c5d85862667a6
+
 
     def __init__(self, d):
         d = d if isinstance(d, dict) else dict(d)
